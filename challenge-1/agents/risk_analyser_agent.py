@@ -1,6 +1,5 @@
 import asyncio
 import os
-import sys
 import importlib.util
 from pathlib import Path
 from typing import Annotated
@@ -14,61 +13,9 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-def validate_environment():
-    """Validate that required environment variables are set."""
-    required_vars = {
-        "AI_FOUNDRY_PROJECT_ENDPOINT": "The Azure AI Foundry project endpoint URL",
-        "MODEL_DEPLOYMENT_NAME": "The name of the deployed model (e.g., gpt-4.1-mini)"
-    }
-    
-    missing_vars = []
-    for var, description in required_vars.items():
-        if not os.environ.get(var):
-            missing_vars.append(f"  - {var}: {description}")
-    
-    if missing_vars:
-        print("\n" + "="*70)
-        print("❌ ERROR: Required environment variables are not set")
-        print("="*70)
-        print("\nMissing variables:")
-        for var in missing_vars:
-            print(var)
-        
-        env_file = Path(__file__).parent.parent.parent / ".env"
-        env_sample = Path(__file__).parent.parent.parent / ".env.sample"
-        
-        print("\n" + "-"*70)
-        print("📋 SETUP INSTRUCTIONS:")
-        print("-"*70)
-        
-        if not env_file.exists():
-            print(f"\n1. The .env file does not exist at: {env_file}")
-            print("\n2. To create it, you have two options:")
-            print("\n   Option A (Recommended): Run the automated setup script")
-            print("   -------------------------------------------------------")
-            print("   cd challenge-0")
-            print("   ./get-keys.sh --resource-group YOUR_RESOURCE_GROUP_NAME")
-            print("\n   This will automatically fetch keys from Azure and create the .env file.")
-            
-            if env_sample.exists():
-                print("\n   Option B (Manual): Copy and edit the sample file")
-                print("   --------------------------------------------------")
-                print(f"   cp {env_sample} {env_file}")
-                print(f"   # Then edit {env_file} and fill in your Azure resource values")
-        else:
-            print(f"\n1. The .env file exists at: {env_file}")
-            print("\n2. However, it's missing required variables. Please add them:")
-            print("\n   You can:")
-            print("   - Re-run: cd challenge-0 && ./get-keys.sh --resource-group YOUR_RESOURCE_GROUP_NAME")
-            print("   - Or manually add the missing variables to your .env file")
-        
-        print("\n" + "-"*70)
-        print("📖 For more information, see: challenge-0/readme.md")
-        print("="*70 + "\n")
-        sys.exit(1)
-
-# Validate environment before proceeding
-validate_environment()
+# Import and run environment validation
+from env_validator import validate_agent_environment
+validate_agent_environment()
 
 # Configuration
 project_endpoint = os.environ.get("AI_FOUNDRY_PROJECT_ENDPOINT")
