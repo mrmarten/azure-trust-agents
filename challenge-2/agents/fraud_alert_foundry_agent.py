@@ -1,7 +1,9 @@
 # Import necessary libraries
 
 import os
+import sys
 import time
+from pathlib import Path
 from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 from azure.ai.agents.models import (
@@ -15,6 +17,18 @@ from azure.ai.agents.models import (
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
+
+# Add agents directory to path for env_validator import
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "challenge-1" / "agents"))
+from env_validator import validate_environment
+
+# Validate required environment variables
+validate_environment({
+    "AI_FOUNDRY_PROJECT_ENDPOINT": "The Azure AI Foundry project endpoint URL",
+    "MODEL_DEPLOYMENT_NAME": "The name of the deployed model (e.g., gpt-4.1-mini)",
+    "MCP_SERVER_ENDPOINT": "The MCP server endpoint URL",
+    "APIM_SUBSCRIPTION_KEY": "The API Management subscription key"
+})
 
 project_endpoint = os.environ.get("AI_FOUNDRY_PROJECT_ENDPOINT")
 model_deployment_name = os.environ.get("MODEL_DEPLOYMENT_NAME")
