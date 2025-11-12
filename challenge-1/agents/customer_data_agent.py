@@ -11,6 +11,10 @@ from pydantic import Field
 
 load_dotenv(override=True)
 
+# Import and run environment validation
+from env_validator import validate_customer_data_agent_environment
+validate_customer_data_agent_environment()
+
 # Configuration
 project_endpoint = os.environ.get("AI_FOUNDRY_PROJECT_ENDPOINT")
 model_deployment_name = os.environ.get("MODEL_DEPLOYMENT_NAME")

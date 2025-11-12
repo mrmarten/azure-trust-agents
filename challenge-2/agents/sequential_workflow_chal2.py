@@ -1,8 +1,10 @@
 import asyncio
 import os
+import sys
 import re
 from datetime import datetime
 from typing_extensions import Never
+from pathlib import Path
 from agent_framework import WorkflowBuilder, WorkflowContext, WorkflowOutputEvent, executor, ChatAgent
 from agent_framework.azure import AzureAIAgentClient
 from azure.identity.aio import AzureCliCredential
@@ -23,6 +25,11 @@ import time
 
 # Load environment variables
 load_dotenv(override=True)
+
+# Add agents directory to path for env_validator import
+sys.path.insert(0, str(Path(__file__).parent.parent / "challenge-1" / "agents"))
+from env_validator import validate_workflow_environment
+validate_workflow_environment()
 
 # Initialize Cosmos DB connection
 cosmos_endpoint = os.environ.get("COSMOS_ENDPOINT")

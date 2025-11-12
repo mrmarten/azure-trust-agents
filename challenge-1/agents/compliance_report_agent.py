@@ -13,6 +13,10 @@ import logging
 
 load_dotenv(override=True)
 
+# Import and run environment validation
+from env_validator import validate_agent_environment
+validate_agent_environment()
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
